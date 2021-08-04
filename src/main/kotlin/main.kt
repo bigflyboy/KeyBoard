@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.wangzhiyuan.keyborad.printlnWithTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -55,11 +56,10 @@ fun main() = Window {
 
     GlobalScreen.addNativeKeyListener(object: NativeKeyListener {
         override fun nativeKeyTyped(e: NativeKeyEvent) {
-            println("Key Typed: " + NativeKeyEvent.getKeyText(e.keyCode))
         }
 
         override fun nativeKeyPressed(e: NativeKeyEvent) {
-            println("Key Pressed: " + NativeKeyEvent.getKeyText(e.keyCode))
+            printlnWithTime("Key Pressed: " + NativeKeyEvent.getKeyText(e.keyCode))
             if (e.keyCode == NativeKeyEvent.VC_ESCAPE) {
                 try {
                     GlobalScreen.unregisterNativeHook()
@@ -70,7 +70,7 @@ fun main() = Window {
         }
 
         override fun nativeKeyReleased(e: NativeKeyEvent) {
-            println("Key Released: " + NativeKeyEvent.getKeyText(e.keyCode))
+            printlnWithTime("Key Released: " + NativeKeyEvent.getKeyText(e.keyCode))
         }
 
     })
@@ -80,5 +80,4 @@ fun keyPress(robot: Robot, key:Int){
     robot.keyPress(key)
     robot.delay(1000)
     robot.keyRelease(key)
-
 }
