@@ -1,6 +1,5 @@
 package com.wangzhiyuan.keyborad.action
 
-import com.wangzhiyuan.keyborad.printlnWithTime
 import kotlinx.coroutines.*
 import org.jnativehook.keyboard.NativeKeyEvent
 import java.awt.Robot
@@ -17,7 +16,6 @@ class PressedAction(systemType: Int, nativeType: Int) : CommonAction(systemType,
     var pressedJob: Job? = null
 
     override fun onKeyReleased(robot: Robot, event: NativeKeyEvent) {
-        printlnWithTime("PressedAction onKeyReleased: " + NativeKeyEvent.getKeyText(event.keyCode))
         if (enable) {
             pressedJob?.cancel()
         } else {

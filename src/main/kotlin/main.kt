@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.wangzhiyuan.keyborad.BackGroudListenService
 import com.wangzhiyuan.keyborad.action.PressedAction
+import com.wangzhiyuan.keyborad.action.PressedOnceAction
 import org.jnativehook.keyboard.NativeKeyEvent
 import java.awt.event.KeyEvent
 
@@ -30,5 +31,5 @@ fun main() = Window {
     BackGroudListenService.startListenKey()
     BackGroudListenService.startListenMouse()
     BackGroudListenService.putAction(NativeKeyEvent.VC_SPACE, PressedAction(KeyEvent.VK_SPACE, NativeKeyEvent.VC_SPACE))
-
+    BackGroudListenService.putAction(NativeKeyEvent.VC_ALT, PressedOnceAction(KeyEvent.VK_ALT, NativeKeyEvent.VC_ALT))
 }
