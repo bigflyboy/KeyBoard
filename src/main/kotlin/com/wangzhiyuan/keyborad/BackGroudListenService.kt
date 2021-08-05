@@ -1,11 +1,13 @@
 package com.wangzhiyuan.keyborad
 
+import com.wangzhiyuan.keyborad.action.CommonAction
 import com.wangzhiyuan.keyborad.listener.SimpleNativeKeyListener
 import com.wangzhiyuan.keyborad.listener.SimpleNativeMouseListener
 import org.jnativehook.GlobalScreen
 import org.jnativehook.NativeHookException
 import org.jnativehook.keyboard.NativeKeyEvent
 import org.jnativehook.mouse.NativeMouseEvent
+import java.awt.Robot
 import java.util.logging.Level
 import java.util.logging.Logger
 import kotlin.system.exitProcess
@@ -13,13 +15,25 @@ import kotlin.system.exitProcess
 /**
  * @Author: wangzhiyuan
  * @CreateDate: 2021/8/05 7:25 下午
- * @Description: 监控键盘鼠标事件
+ * @Description: 后台监听事件管理类
  */
-object BackGroudService {
+object BackGroudListenService {
 
     private var isInit = false
 
-    fun initHook(){
+    private val robot: Robot = Robot()
+
+    private val actionMap: HashMap<Int, CommonAction> = HashMap()
+
+    fun putAction(type: Int) {
+        actionMap[type] = CommonAction(type)
+    }
+
+    fun removeAction(type: Int) {
+        actionMap.remove(type)
+    }
+
+    fun initHook() {
         try {
             GlobalScreen.registerNativeHook()
         } catch (ex: NativeHookException) {
@@ -34,23 +48,26 @@ object BackGroudService {
     }
 
     private val keyListener by lazy {
-        object: SimpleNativeKeyListener() {
+        object : SimpleNativeKeyListener() {
 
             override fun nativeKeyPressed(event: NativeKeyEvent) {
                 printlnWithTime("Key Pressed: " + NativeKeyEvent.getKeyText(event.keyCode))
+                actionMap[event.keyCode]?.onKeyPressed(robot, event)
             }
 
             override fun nativeKeyReleased(event: NativeKeyEvent) {
                 printlnWithTime("Key Released: " + NativeKeyEvent.getKeyText(event.keyCode))
+                actionMap[event.keyCode]?.onKeyReleased(robot, event)
             }
 
         }
     }
 
     private val mouseListener by lazy {
-        object :SimpleNativeMouseListener(){
+        object : SimpleNativeMouseListener() {
             override fun nativeMouseMoved(nativeEvent: NativeMouseEvent) {
                 printlnWithTime("MouseMoved: " + nativeEvent.point)
+                actionMap[ACTION_MOUSE]?.mouseMoved(robot, nativeEvent)
             }
         }
     }
@@ -71,7 +88,7 @@ object BackGroudService {
         GlobalScreen.removeNativeMouseMotionListener(mouseListener)
     }
 
-    fun releaseHook(){
+    fun releaseHook() {
         try {
             GlobalScreen.unregisterNativeHook()
         } catch (nativeHookException: NativeHookException) {

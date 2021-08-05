@@ -7,8 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.wangzhiyuan.keyborad.BackGroudService
-
+import com.wangzhiyuan.keyborad.BackGroudListenService
 
 fun main() = Window {
     var text by remember { mutableStateOf("Hello, World!") }
@@ -24,8 +23,8 @@ fun main() = Window {
         }
     }
 
-    BackGroudService.initHook()
-    BackGroudService.startListenKey()
-    BackGroudService.startListenMouse()
+    BackGroudListenService.initHook()
+    BackGroudListenService.startListenKey()
+    BackGroudListenService.startListenMouse()
 
 }
