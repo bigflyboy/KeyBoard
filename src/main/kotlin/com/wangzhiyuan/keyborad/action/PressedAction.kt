@@ -22,7 +22,7 @@ class PressedAction(systemType: Int, nativeType: Int) : CommonAction(systemType,
             pressedJob = CoroutineScope(Dispatchers.IO).launch {
                 while (true) {
                     robot.keyPress(systemType)
-                    delay(80)
+                    delay(50)
                 }
             }
         }
