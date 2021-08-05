@@ -5,8 +5,12 @@ import java.text.SimpleDateFormat
 
 val f = SimpleDateFormat("HH:mm:ss.SSS")
 
+const val isLogger = true
+
 fun printlnWithTime(message: String) {
-    println(f.format(System.currentTimeMillis()) + ": " + message)
+    if (isLogger) {
+        println(f.format(System.currentTimeMillis()) + ": " + message)
+    }
 }
 
 const val ACTION_MOUSE: Int = 0xA000

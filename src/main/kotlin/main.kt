@@ -8,6 +8,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.wangzhiyuan.keyborad.BackGroudListenService
+import com.wangzhiyuan.keyborad.action.PressedAction
+import org.jnativehook.keyboard.NativeKeyEvent
+import java.awt.event.KeyEvent
 
 fun main() = Window {
     var text by remember { mutableStateOf("Hello, World!") }
@@ -26,5 +29,6 @@ fun main() = Window {
     BackGroudListenService.initHook()
     BackGroudListenService.startListenKey()
     BackGroudListenService.startListenMouse()
+    BackGroudListenService.putAction(NativeKeyEvent.VC_SPACE, PressedAction(KeyEvent.VK_SPACE, NativeKeyEvent.VC_SPACE))
 
 }

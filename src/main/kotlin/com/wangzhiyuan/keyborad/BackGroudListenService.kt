@@ -25,8 +25,8 @@ object BackGroudListenService {
 
     private val actionMap: HashMap<Int, CommonAction> = HashMap()
 
-    fun putAction(type: Int) {
-        actionMap[type] = CommonAction(type)
+    fun putAction(nativaType: Int,action: CommonAction) {
+        actionMap[nativaType] = action
     }
 
     fun removeAction(type: Int) {
@@ -66,7 +66,7 @@ object BackGroudListenService {
     private val mouseListener by lazy {
         object : SimpleNativeMouseListener() {
             override fun nativeMouseMoved(nativeEvent: NativeMouseEvent) {
-                printlnWithTime("MouseMoved: " + nativeEvent.point)
+//                printlnWithTime("MouseMoved: " + nativeEvent.point)
                 actionMap[ACTION_MOUSE]?.mouseMoved(robot, nativeEvent)
             }
         }

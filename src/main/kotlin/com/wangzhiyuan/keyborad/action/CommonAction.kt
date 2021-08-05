@@ -9,7 +9,7 @@ import java.awt.Robot
  * @CreateDate: 2021/8/5 4:30 下午
  * @Description: Action 基类
  */
-open class CommonAction(type: Int) : KeyAction, MouseAction {
+open class CommonAction(val systemType: Int, val nativeType: Int) : KeyAction, MouseAction {
     override fun onKeyPressed(robot: Robot, event: NativeKeyEvent) {
 
     }
