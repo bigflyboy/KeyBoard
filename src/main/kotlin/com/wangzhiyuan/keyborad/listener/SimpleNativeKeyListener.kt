@@ -8,7 +8,7 @@ import org.jnativehook.keyboard.NativeKeyListener
  * @CreateDate: 2021/8/5 3:29 下午
  * @Description: 键盘事件的简单实现类
  */
-class SimpleNativeKeyListener: NativeKeyListener {
+open class SimpleNativeKeyListener: NativeKeyListener {
     override fun nativeKeyTyped(event: NativeKeyEvent) {
 
     }

@@ -1,9 +1,11 @@
 package com.wangzhiyuan.keyborad
 
+import com.wangzhiyuan.keyborad.listener.SimpleNativeKeyListener
+import com.wangzhiyuan.keyborad.listener.SimpleNativeMouseListener
 import org.jnativehook.GlobalScreen
 import org.jnativehook.NativeHookException
 import org.jnativehook.keyboard.NativeKeyEvent
-import org.jnativehook.keyboard.NativeKeyListener
+import org.jnativehook.mouse.NativeMouseEvent
 import java.util.logging.Level
 import java.util.logging.Logger
 import kotlin.system.exitProcess
@@ -15,7 +17,9 @@ import kotlin.system.exitProcess
  */
 object BackGroudService {
 
-    init {
+    private var isInit = false
+
+    fun initHook(){
         try {
             GlobalScreen.registerNativeHook()
         } catch (ex: NativeHookException) {
@@ -23,45 +27,57 @@ object BackGroudService {
             System.err.println(ex.message)
             exitProcess(1)
         }
+        isInit = true
         val logger: Logger = Logger.getLogger(GlobalScreen::class.java.getPackage().name)
         logger.level = Level.WARNING
         logger.useParentHandlers = false
     }
 
+    private val keyListener by lazy {
+        object: SimpleNativeKeyListener() {
+
+            override fun nativeKeyPressed(event: NativeKeyEvent) {
+                printlnWithTime("Key Pressed: " + NativeKeyEvent.getKeyText(event.keyCode))
+            }
+
+            override fun nativeKeyReleased(event: NativeKeyEvent) {
+                printlnWithTime("Key Released: " + NativeKeyEvent.getKeyText(event.keyCode))
+            }
+
+        }
+    }
+
+    private val mouseListener by lazy {
+        object :SimpleNativeMouseListener(){
+            override fun nativeMouseMoved(nativeEvent: NativeMouseEvent) {
+                printlnWithTime("MouseMoved: " + nativeEvent.point)
+            }
+        }
+    }
+
     fun startListenKey() {
-        GlobalScreen.addNativeKeyListener(object: NativeKeyListener {
-            override fun nativeKeyTyped(e: NativeKeyEvent) {
-
-            }
-
-            override fun nativeKeyPressed(e: NativeKeyEvent) {
-                printlnWithTime("Key Pressed: " + NativeKeyEvent.getKeyText(e.keyCode))
-                if (e.keyCode == NativeKeyEvent.VC_ESCAPE) {
-                    try {
-                        GlobalScreen.unregisterNativeHook()
-                    } catch (nativeHookException: NativeHookException) {
-                        nativeHookException.printStackTrace()
-                    }
-                }
-            }
-
-            override fun nativeKeyReleased(e: NativeKeyEvent) {
-                printlnWithTime("Key Released: " + NativeKeyEvent.getKeyText(e.keyCode))
-            }
-
-        })
+        GlobalScreen.addNativeKeyListener(keyListener)
     }
 
     fun stopListenKey() {
-
+        GlobalScreen.removeNativeKeyListener(keyListener)
     }
 
     fun startListenMouse() {
-
+        GlobalScreen.addNativeMouseMotionListener(mouseListener)
     }
 
     fun stopListenMouse() {
+        GlobalScreen.removeNativeMouseMotionListener(mouseListener)
+    }
 
+    fun releaseHook(){
+        try {
+            GlobalScreen.unregisterNativeHook()
+        } catch (nativeHookException: NativeHookException) {
+            nativeHookException.printStackTrace()
+        }
+        isInit = false
     }
 
 }

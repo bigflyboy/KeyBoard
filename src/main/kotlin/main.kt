@@ -24,6 +24,8 @@ fun main() = Window {
         }
     }
 
+    BackGroudService.initHook()
     BackGroudService.startListenKey()
+    BackGroudService.startListenMouse()
 
 }
