@@ -22,11 +22,18 @@ class PressedAction(systemType: Int, nativeType: Int) : CommonAction(systemType,
             pressedJob = CoroutineScope(Dispatchers.IO).launch {
                 while (true) {
                     robot.keyPress(systemType)
-                    delay(50)
+                    delay(16)
                 }
             }
         }
         enable = !enable
+    }
+
+    override fun cancel() {
+        if (enable) {
+            pressedJob?.cancel()
+            enable = false
+        }
     }
 
 }

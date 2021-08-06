@@ -24,7 +24,7 @@ object BackGroudListenService {
 
     private val robot: Robot = Robot()
 
-    private val actionMap: HashMap<Int, CommonAction> = HashMap()
+    val actionMap: HashMap<Int, CommonAction> = HashMap()
 
     fun putAction(nativaType: Int, action: CommonAction) {
         actionMap[nativaType] = action
@@ -72,6 +72,7 @@ object BackGroudListenService {
                 if (currentType != type) {
                     currentType = type
                     printlnWithTime("MouseMoved: $currentType")
+                    actionMap[type]?.mouseMoved(robot, nativeEvent)
                 }
             }
         }

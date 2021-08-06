@@ -5,7 +5,10 @@ import androidx.compose.material.Checkbox
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import com.wangzhiyuan.keyborad.ACTION_MOUSE
+import com.wangzhiyuan.keyborad.ACTION_MOUSE_OUTSIZE
 import com.wangzhiyuan.keyborad.BackGroudListenService
+import com.wangzhiyuan.keyborad.action.CancelAction
 import com.wangzhiyuan.keyborad.action.PressedAction
 import com.wangzhiyuan.keyborad.action.PressedOnceAction
 import org.jnativehook.keyboard.NativeKeyEvent
@@ -23,6 +26,7 @@ fun main() = Window {
     BackGroudListenService.startListenMouse()
     BackGroudListenService.putAction(NativeKeyEvent.VC_SPACE, PressedAction(KeyEvent.VK_SPACE, NativeKeyEvent.VC_SPACE))
     BackGroudListenService.putAction(NativeKeyEvent.VC_ALT, PressedAction(KeyEvent.VK_ALT, NativeKeyEvent.VC_ALT))
+    BackGroudListenService.putAction(ACTION_MOUSE_OUTSIZE, CancelAction(0, NativeKeyEvent.VC_SPACE))
 }
 
 @Composable
