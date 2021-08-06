@@ -1,5 +1,6 @@
 package com.wangzhiyuan.keyborad
 
+import com.wangzhiyuan.keyborad.action.ActionManager
 import com.wangzhiyuan.keyborad.action.CommonAction
 import com.wangzhiyuan.keyborad.listener.SimpleNativeKeyListener
 import com.wangzhiyuan.keyborad.listener.SimpleNativeMouseListener
@@ -25,7 +26,7 @@ object BackGroudListenService {
 
     private val actionMap: HashMap<Int, CommonAction> = HashMap()
 
-    fun putAction(nativaType: Int,action: CommonAction) {
+    fun putAction(nativaType: Int, action: CommonAction) {
         actionMap[nativaType] = action
     }
 
@@ -65,9 +66,13 @@ object BackGroudListenService {
 
     private val mouseListener by lazy {
         object : SimpleNativeMouseListener() {
+            var currentType = ACTION_MOUSE
             override fun nativeMouseMoved(nativeEvent: NativeMouseEvent) {
-//                printlnWithTime("MouseMoved: " + nativeEvent.point)
-                actionMap[ACTION_MOUSE]?.mouseMoved(robot, nativeEvent)
+                val type = ActionManager.getMouseType(nativeEvent)
+                if (currentType != type) {
+                    currentType = type
+                    printlnWithTime("MouseMoved: $currentType")
+                }
             }
         }
     }

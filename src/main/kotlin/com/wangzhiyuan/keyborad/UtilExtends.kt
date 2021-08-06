@@ -13,4 +13,5 @@ fun printlnWithTime(message: String) {
     }
 }
 
-const val ACTION_MOUSE: Int = 0xA000
+const val ACTION_MOUSE_OUTSIZE: Int = 0xA000
+const val ACTION_MOUSE: Int = 0xA0FF
