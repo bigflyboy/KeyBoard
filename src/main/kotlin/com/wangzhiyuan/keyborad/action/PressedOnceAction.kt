@@ -19,4 +19,8 @@ class PressedOnceAction(systemType: Int, nativeType: Int) : CommonAction(systemT
         enable = !enable
     }
 
+    override fun cancel() {
+        enable = false
+    }
+
 }

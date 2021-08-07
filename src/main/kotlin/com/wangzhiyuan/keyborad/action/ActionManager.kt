@@ -19,7 +19,7 @@ object ActionManager {
 
     val miniHeight by lazy { size.height / 100 }
 
-    val maxHeight by lazy { size.height - miniHeight }
+    val maxHeight by lazy { 1440 - miniHeight }
 
     fun getMouseType(nativeEvent: NativeMouseEvent): Int {
         if (nativeEvent.x < miniWidth || nativeEvent.x > maxWidth || nativeEvent.y < miniHeight || nativeEvent.y > maxHeight) {
