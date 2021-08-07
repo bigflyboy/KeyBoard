@@ -29,7 +29,7 @@ class PressedAction(systemType: Int, nativeType: Int) : CommonAction(systemType,
         enable = !enable
     }
 
-    override fun cancel() {
+    override fun cancel(robot: Robot) {
         if (enable) {
             pressedJob?.cancel()
             enable = false

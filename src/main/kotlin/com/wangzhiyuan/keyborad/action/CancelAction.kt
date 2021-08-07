@@ -12,7 +12,7 @@ import java.awt.Robot
 class CancelAction(systemType: Int, nativeType: Int) : CommonAction(systemType, nativeType) {
 
     override fun mouseMoved(robot: Robot, event: NativeMouseEvent) {
-        BackGroudListenService.actionMap[nativeType]?.cancel()
+        BackGroudListenService.actionMap[nativeType]?.cancel(robot)
     }
 
 }

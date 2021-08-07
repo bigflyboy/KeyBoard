@@ -22,7 +22,7 @@ open class CommonAction(val systemType: Int, val nativeType: Int) : KeyAction, M
 
     }
 
-    override fun cancel() {
+    override fun cancel(robot: Robot) {
 
     }
 }

@@ -19,8 +19,10 @@ class PressedOnceAction(systemType: Int, nativeType: Int) : CommonAction(systemT
         enable = !enable
     }
 
-    override fun cancel() {
-        enable = false
+    override fun cancel(robot: Robot) {
+        if(enable){
+            robot.keyRelease(systemType)
+        }
     }
 
 }
