@@ -1,8 +1,8 @@
 package com.wangzhiyuan.keyborad.action
 
-import com.wangzhiyuan.keyborad.ACTION_MOUSE
-import com.wangzhiyuan.keyborad.ACTION_MOUSE_OUTSIZE
+import com.wangzhiyuan.keyborad.*
 import org.jnativehook.mouse.NativeMouseEvent
+import java.awt.Dimension
 import java.awt.Toolkit
 
 /**
@@ -11,15 +11,20 @@ import java.awt.Toolkit
  * @Description: Action行为管理类
  */
 object ActionManager {
-    val size by lazy { Toolkit.getDefaultToolkit().screenSize }
 
-    val miniWidth by lazy { size.width / 200 }
+    val size: Dimension by lazy { Toolkit.getDefaultToolkit().screenSize }
 
-    val maxWidth by lazy { size.width - miniWidth }
+    val miniWidth by lazy { WIDTH / 200 }
 
-    val miniHeight by lazy { size.height / 100 }
+    val maxWidth by lazy { WIDTH - miniWidth }
 
-    val maxHeight by lazy { 1440 - miniHeight }
+    val miniHeight by lazy { HEIGHT / 100 }
+
+    val maxHeight by lazy { HEIGHT - miniHeight }
+
+    init {
+        printlnWithTime("width = ${size.width} height = ${size.height}")
+    }
 
     fun getMouseType(nativeEvent: NativeMouseEvent): Int {
         if (nativeEvent.x < miniWidth || nativeEvent.x > maxWidth || nativeEvent.y < miniHeight || nativeEvent.y > maxHeight) {
